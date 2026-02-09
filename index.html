@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title> Let's go out </title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&family=Dancing+Script:wght@600&display=swap" rel="stylesheet">
+
+  <!-- Canvas Confetti -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      height: 100vh;
+      background: #fce4ec;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: 'Quicksand', sans-serif;
+    }
+
+    .card {
+      background: #fff;
+      border: 1.5px solid #000;
+      border-radius: 16px;
+      padding: 24px;
+      max-width: 380px;
+      width: 90%;
+      text-align: center;
+    }
+
+    h1 {
+      margin-top: 0;
+      font-size: 1.8rem;
+    }
+
+    p {
+      font-size: 1.1rem;
+      min-height: 1.4em;
+    }
+
+    img {
+      width: 100%;
+      max-height: 220px;
+      object-fit: contain;
+      margin: 12px 0;
+    }
+
+    .buttons {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      margin-top: 20px;
+    }
+
+    button {
+      font-family: 'Dancing Script', cursive;
+      font-size: 1.2rem;
+      padding: 10px 22px;
+      border-radius: 999px;
+      border: 1.5px solid #000;
+      background: #fff;
+      cursor: pointer;
+      transition: transform 0.3s ease, opacity 0.3s ease;
+    }
+
+    button:hover {
+      background: #ffe4ec;
+    }
+
+    .yes {
+      transform: scale(1);
+    }
+
+    .no {
+      transform: scale(1);
+    }
+
+    @media (max-width: 480px) {
+      h1 {
+        font-size: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card" id="card">
+    <h1>Am's, Can we go out on 02/12/26 (Thursday 5pm)? 💘</h1>
+    <img id="gif" src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExYzZ3eWhkZGJkcmx1bml6bTg4N3k0NGx3Z2F3N3N1a2pvdzZlM3VjZyZlcD12MV9naWZzX3NlYXJjaCZjdD1n/3oriO0OEd9QIDdllqo/giphy.gif" alt="cute gif">
+    <p id="message">Pretty please? 🥺</p>
+
+    <div class="buttons">
+      <button class="yes" id="yesBtn">Yes 💖</button>
+      <button class="no" id="noBtn">No 🙃</button>
+    </div>
+  </div>
+
+  <script>
+    const noBtn = document.getElementById('noBtn');
+    const yesBtn = document.getElementById('yesBtn');
+    const message = document.getElementById('message');
+    const gif = document.getElementById('gif');
+    const card = document.getElementById('card');
+
+    let noClicks = 0;
+
+    const guiltPhrases = [
+      "Are you sure? 😢",
+      "Wow... that hurts 💔",
+      "I'm gonna cry 😭",
+      "This is emotional damage 🥲",
+      "Last chance... 😞"
+    ];
+
+    const sadGifs = [
+      "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExbGR2NGc3dDBycDhtM2Y3a2l6bGZ4ZWZxODJ6M3I2bGFmY3l5d3c1cCZlcD12MV9naWZzX3NlYXJjaCZjdD1n/l3vR4CdLInXOhr3rO/giphy.gif",
+      "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExM3N3MWs1eXkzM3JpNmRtdW5zaDYzYWQ3YmI2cG9qM3g5Z2E1aTdsNSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/ISOckXUybVfQ4/giphy.gif",
+      "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExaHBnMXFpcHBwZGZ1aWhyd3R4bXF6czZzZDl6dGVpajVwa3JzazJzZyZlcD12MV9naWZzX3NlYXJjaCZjdD1n/ROF8OQvDmxytW/giphy.gif",
+      "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExN2Q0OHU2eml5c2V6b3U1b3k4NHRsbGlzNWZ2M2N4N2l6b3V3aGZ5YSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/9Y5BbDSkSTiY8/giphy.gif",
+      "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExdGFtdnF2cTJ5Ym5jNDRsMWY5dXJ1Z2FqaHF4bmZ3a2FybGZpZ2N3NiZlcD12MV9naWZzX3NlYXJjaCZjdD1n/OPU6wzx8JrHna/giphy.gif"
+    ];
+
+    noBtn.addEventListener('click', () => {
+      noClicks++;
+
+      message.textContent = guiltPhrases[Math.min(noClicks - 1, guiltPhrases.length - 1)];
+      gif.src = sadGifs[Math.min(noClicks - 1, sadGifs.length - 1)];
+
+      const yesScale = 1 + noClicks * 0.25;
+      const noScale = Math.max(0.5 - noClicks * 0.1, 0);
+
+      yesBtn.style.transform = `scale(${yesScale})`;
+      noBtn.style.transform = `scale(${noScale})`;
+
+      if (noClicks >= 5) {
+        noBtn.style.opacity = 0;
+        noBtn.style.pointerEvents = "none";
+      }
+    });
+
+    yesBtn.addEventListener('click', () => {
+      card.innerHTML = `
+        <h1>Knew it bngrm (My Tiger) 😘</h1>
+        <p>You had no choice anyway 💕</p>
+        <button id="loveBtn">Love you 💖</button>
+      `;
+
+      const loveBtn = document.getElementById('loveBtn');
+      loveBtn.style.fontFamily = "'Dancing Script', cursive";
+      loveBtn.style.fontSize = "1.4rem";
+
+      // Confetti loop
+      const duration = 10 * 1000;
+      const end = Date.now() + duration;
+
+      (function frame() {
+        confetti({
+          particleCount: 5,
+          spread: 70,
+          origin: { y: 0.6 }
+        });
+        if (Date.now() < end) {
+          requestAnimationFrame(frame);
+        }
+      })();
+    });
+  </script>
+
+</body>
+</html>
